@@ -6,6 +6,7 @@ import Dialog from "@/components/BaseDialog/Dialog";
 
 type Property = {
   id: string
+  slug: string;
   title: string;
   image: string;
   location: string;
@@ -51,7 +52,8 @@ export default function Home() {
     setCurrentDataByIndex(index);
   }
 
-  const removeProperty = async(id: string) => {
+  const removeProperty = async(e : any, id: string) => {
+    e.preventDefault();
     if (!id) {
       console.error('No ID provided for deletion');
       return;
@@ -133,7 +135,7 @@ export default function Home() {
           <p className="text-sm text-gray-600">Are you sure you want to delete this property?</p>
           <div className="flex items-center justify-end gap-2 mt-4">
             <button className="bg-gray-500 text-white px-4 py-2 rounded-md" onClick={() => setDeleteDialogOpen(false)}>Cancel</button>
-            <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={() => removeProperty(currentDataByIndex || '')}>Delete</button>
+            <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={(e) => removeProperty(e, currentDataByIndex || '')}>Delete</button>
           </div>
         </div>
       </Dialog>
