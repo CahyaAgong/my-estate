@@ -37,23 +37,24 @@ export default function Home() {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((property, index) => (
-          <Card key={index} data={property} onUpdate={() => alert('card' + index + ' updated')} onDelete={() => toggleDialog(deleteDialogOpen, setDeleteDialogOpen, property.id)} />
+          <Card key={index} data={property} onUpdate={() => alert('card' + index + ' updated')} onDelete={(e) => toggleDialog(e, deleteDialogOpen, setDeleteDialogOpen, property.id)} />
         ))}
       </div>
     );
   };
 
   const toggleDialog = (
+    e: React.MouseEvent | React.KeyboardEvent,
     openDialog: boolean,
     setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>,
     index: string | null = null
   ) => {
+    e.preventDefault();
     setOpenDialog(!openDialog);
     setCurrentDataByIndex(index);
   }
 
-  const removeProperty = async(e : any, id: string) => {
-    e.preventDefault();
+  const removeProperty = async(id: string) => {
     if (!id) {
       console.error('No ID provided for deletion');
       return;
@@ -135,7 +136,7 @@ export default function Home() {
           <p className="text-sm text-gray-600">Are you sure you want to delete this property?</p>
           <div className="flex items-center justify-end gap-2 mt-4">
             <button className="bg-gray-500 text-white px-4 py-2 rounded-md" onClick={() => setDeleteDialogOpen(false)}>Cancel</button>
-            <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={(e) => removeProperty(e, currentDataByIndex || '')}>Delete</button>
+            <button className="bg-red-500 text-white px-4 py-2 rounded-md" onClick={(e) => removeProperty(currentDataByIndex || '')}>Delete</button>
           </div>
         </div>
       </Dialog>
